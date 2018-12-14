@@ -73,13 +73,16 @@ import seaborn as sns
 #提取embedding
 book_emb=model.get_layer('book-embedding')
 book_emb_weights=book_emb.get_weights()[0]
-print(book_emb_weights.shape)
+print(book_emb_weights.shape) #(10001, 5)
 
 pca=PCA()
 pca_result=pca.fit_transform(book_emb_weights)
 sns.scatterplot(x=pca_result[:,0],y=pca_result[:,1])
 plt.show()
 
+#对权重向量规整化 norm 表示归一化
+# normalization 归一化 ：将数据转换到 [0, 1] 之间，
+# standardization 标准化：转换后的数据符合标准正态分布
 book_emb_weights=book_emb_weights/np.linalg.norm(book_emb_weights,axis=1).reshape((-1,1))
 
 pca=PCA(n_components=2)
